@@ -5,7 +5,7 @@ Konsep dari projek ini adalah melakukan monitoring penggunaan lampu dan kipas pe
 Alat-alat yang digunakan diantaranya:
 - 1 _Breadboard_
 - 1 Arduino Uno _board_
-- 1 _Passive_Infrared_sensor (PIR)
+- 1 _Passive_Infrared_sensor_ (PIR)
 - 1 Gas sensor
 - 1 Modul micro SD
 - 1 LED putih  (sebagai representasi switch **lampu kamar mandi**)
