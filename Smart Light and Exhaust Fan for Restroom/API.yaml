@@ -13,7 +13,7 @@ info:
     Link projek:
     - [Data Acquisition & Input Parameter Simulation](https://www.tinkercad.com/things/8VQjDwv1EwX?sharecode=6m6rZR8Xpvfb2RmDj3n5h9iKUaeYaXKtgQNOwsDkSSc)
     - [Data Logging & Read SD Data Simulation](https://wokwi.com/projects/341793063678509650)
-    - [Github](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
+    - [Github](https://github.com/hirbondi/Experiment/blob/main/Smart%20Light%20and%20Exhaust%20Fan%20for%20Restroom/API.yaml)
 
 servers:
   - url: None
