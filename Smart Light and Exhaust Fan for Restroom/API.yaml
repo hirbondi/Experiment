@@ -1,0 +1,173 @@
+openapi: 3.0.3
+info:
+  version: 1.0.11
+  title: Smart Light & Exhaust Fan for Restroom Documentation
+  description: |-
+    Berikut ini adalah dokumentasi command-command dari projek "Smart Light & Exhaust Fan for Restroom" berkaitan dengan Skill Task Firmware Engineer V2.
+    
+    Projek ini adalah tentang monitoring kondisi pencahayaan dan kipas pembuangan dari sebuah kamar mandi dengan menggunakan Arduino Uno, modul micro SD card, dan dua buah sensor, yaitu _Passive Infrared Sensor_ (PIR) dan gas sensor. Projek ini seluruhnya dibuat secara virtual. Simulasi proses pengumpulan data dilakukan melalui _tinkercad.com_, sedangkan penyimpanan data ke micro SD dilakukan di _wokwi.com_.
+    
+    Data-data yang diperoleh secara _realtime_ dapat ditampilkan maupun diatur parameter-parameternya melalui command serial monitor Arduino Uno (virtual). Oleh karena itu API yang tertulis dalam dokumen ini bukan dalam arti API sesungguhnya, namun berupa kode command line interface serial monitor.
+
+    
+    Link projek:
+    - [Data Acquisition & Input Parameter Simulation](https://www.tinkercad.com/things/8VQjDwv1EwX?sharecode=6m6rZR8Xpvfb2RmDj3n5h9iKUaeYaXKtgQNOwsDkSSc)
+    - [Data Logging & Read SD Data Simulation](https://wokwi.com/projects/341793063678509650)
+    - [Github](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
+
+servers:
+  - url: None
+  
+tags:
+  - name: help
+    description: Show info
+  - name: stream
+    description: Show/ hide realtime data in serial monitor
+  - name: value_params
+    description: Operation for input data parameters
+  - name: readSD
+    description: Read the stored data from micro SD
+    
+paths:
+  /help:
+    get:
+      tags:
+        - help
+      summary: Get informations about command line format
+      description: Actually it can use '/help' or '/?' command to showing the informations.
+      operationId: updatePet
+      
+      responses:
+        '200':
+          description: Success Get Command Line Informations
+          
+  /stream 1:
+    get:
+      tags:
+        - stream
+      summary: Get realtime data in serial monitor
+      description: The format is Lamp status; Exhaust fan status; PIR sensor value; Gas sensor value; Lamp OFF Counter
+      
+      responses:
+        '200':
+          description: Successful show realtime data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/readData'  
+  
+  /stream 0:
+    get:
+      tags:
+        - stream
+      summary: Hide realtime data in serial monitor
+      description: No realtime data will be printed in serial monitor
+      
+      responses:
+        '200':
+          description: Success Show Realtime Data
+      
+  /value_1,value_2,value_3:
+    post:
+      tags:
+        - value_params
+      summary: Configure input parameters
+      description: Configure three input parameters.
+                  value_1 = maximum bad smell odor threshold value (default=500).
+                  value_2 = lamp power off timer in seconds (default=15).
+                  value_3 = while loop interval in seconds (default=1)
+      requestBody:
+        description: All three input must be integer datatype. Example :/550,10,2
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/inpParams'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/respParams'          
+        '405':
+          description: Invalid input
+  
+  /readSD:
+    get:
+      tags:
+        - readSD
+      summary: Show the stored data from microSD to serial monitor
+      description: The format is Lamp status; Exhaust fan status; PIR sensor value; Gas sensor value; Lamp OFF Counter
+      
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/readData'          
+
+  
+  
+components:
+  schemas:
+    inpParams:
+      type: object
+      properties:
+        value_1:
+          type: integer
+          format: uint32
+          example: 550
+        value_2:
+          type: integer
+          format: uint8
+          example: 10
+        value_3:
+          type: integer
+          format: uint8
+          example: 2
+    
+    respParams:
+      type: object
+      properties:
+        Gas Threshold:
+          type: integer
+          format: uint32
+          example: 550
+        Lamp Off Var:
+          type: integer
+          format: uint8
+          example: 10
+        Loop interval:
+          type: integer
+          format: uint8
+          example: 2
+    
+    readData:
+      required:
+        - name
+        - val
+      type: object
+      properties:
+        Lamp status:
+          type: integer
+          format: uint8
+          example: 1
+        Exhaust fan:
+          type: integer
+          format: uint8
+          example: 1
+        PIR sensor value:
+          type: integer
+          format: uint8
+          example: 0
+        Gas sensor value:
+          type: integer
+          format: uint32
+          example: 580
+        Lamp OFF Counter:
+          type: integer
+          format: uint8
+          example: 5
+          
